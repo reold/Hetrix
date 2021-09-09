@@ -22,8 +22,7 @@ canvas.all_layers = [
 ]
 
 canvas.create_keyframe(1, 1, {"x": 10, "y": 30})
-canvas.create_keyframe(1, 50, {"x": 20, "y": 50})
-canvas.create_keyframe(1, 70, {"x": 400, "y": 400})
+canvas.create_keyframe(1, 75, {"x": 400, "y": 490})
 
 canvas.all_layers.reverse()
 

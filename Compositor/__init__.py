@@ -81,11 +81,11 @@ class OpenCanvas:
                 key1_data, key2_data = NotImplemented, NotImplemented
                 for frame_itr in range(no_frames):
                     print("I")
-                    if not key1:
+                    if not key1 or str(list(layer.keys())[frame_itr]) == key2:
                         key1 = str(list(layer.keys())[frame_itr])
                         key1_data = layer[str(list(layer.keys())[frame_itr])]
 
-                    elif not key2:
+                    elif not key2 or str(list(layer.keys())[frame_itr]) == key1:
                         key2 = str(list(layer.keys())[frame_itr])
 
                         key2_data = layer[str(list(layer.keys())[frame_itr])]
@@ -95,12 +95,8 @@ class OpenCanvas:
 
                 slope_value = int(key2_data["x"]) - int(key1_data["x"])
                 slope_value_y = int(key2_data["y"]) - int(key1_data["y"])
-                slope_value = slope_value / (
-                    int(key2_data["x"]) - int(key1_data["x"]) - 1
-                )
-                slope_value_y = slope_value_y / (
-                    int(key2_data["y"]) - int(key1_data["y"]) - 1
-                )
+                slope_value = slope_value / (int(key2) - int(key1) - 1)
+                slope_value_y = slope_value_y / (int(key2) - int(key1) - 1)
                 print(f"SLOPE Value: {slope_value}")
                 print(f"Y SLOPE Value: {slope_value_y}")
                 for frame_itr in range(int(key2) - int(key1) - 1):
