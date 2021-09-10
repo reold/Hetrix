@@ -77,47 +77,54 @@ class OpenCanvas:
             no_frames = len(layer)
 
             if no_frames > 1:
-                key1, key2 = 0, 0
-                key1_data, key2_data = NotImplemented, NotImplemented
+                keys = []
+
                 for frame_itr in range(no_frames):
                     print("I")
-                    if not key1 or str(list(layer.keys())[frame_itr]) == key2:
-                        key1 = str(list(layer.keys())[frame_itr])
-                        key1_data = layer[str(list(layer.keys())[frame_itr])]
+                    keys.append(
+                        {
+                            "frame": int(list(layer.keys())[frame_itr]),
+                            "data": layer[str(list(layer.keys())[frame_itr])],
+                        }
+                    )
 
-                    elif not key2 or str(list(layer.keys())[frame_itr]) == key1:
-                        key2 = str(list(layer.keys())[frame_itr])
+                print(keys)
 
-                        key2_data = layer[str(list(layer.keys())[frame_itr])]
+                for key_itr in range(len(keys) - 1):
+                    a_key, b_key = keys[key_itr], keys[key_itr + 1]
+                    print(f"A: {a_key} B: {b_key}")
 
-                print(key1, key2)
-                print(key1_data, key2_data)
+                    slope_value_x = int(b_key["data"]["x"]) - int(a_key["data"]["x"])
+                    slope_value_y = int(b_key["data"]["y"]) - int(a_key["data"]["y"])
+                    slope_value_x = slope_value_x / (
+                        int(b_key["frame"]) - int(a_key["frame"]) - 1
+                    )
+                    slope_value_y = slope_value_y / (
+                        int(b_key["frame"]) - int(a_key["frame"]) - 1
+                    )
+                    print(f"X SLOPE Value: {slope_value_x}")
+                    print(f"Y SLOPE Value: {slope_value_y}")
+                    for frame_itr in range(b_key["frame"] - a_key["frame"] - 1):
+                        frame_itr += int(a_key["frame"]) + 1
+                        layer[str(frame_itr)] = {
+                            "x": a_key["data"]["x"]
+                            + slope_value_x * (frame_itr - int(a_key["frame"]) - 1),
+                            "y": a_key["data"]["y"]
+                            + slope_value_y * (frame_itr - int(a_key["frame"]) - 1),
+                        }
 
-                slope_value = int(key2_data["x"]) - int(key1_data["x"])
-                slope_value_y = int(key2_data["y"]) - int(key1_data["y"])
-                slope_value = slope_value / (int(key2) - int(key1) - 1)
-                slope_value_y = slope_value_y / (int(key2) - int(key1) - 1)
-                print(f"SLOPE Value: {slope_value}")
-                print(f"Y SLOPE Value: {slope_value_y}")
-                for frame_itr in range(int(key2) - int(key1) - 1):
-                    frame_itr += int(key1) + 1
-                    layer[str(frame_itr)] = {
-                        "x": key1_data["x"] + slope_value * frame_itr,
-                        "y": key1_data["y"] + slope_value_y * frame_itr,
-                    }
+                # last_data = NotImplemented
+                # for frame_itr in range(self.fps * self.duration):
+                #     frame_itr += 1
+                #     try:
 
-                last_data = NotImplemented
-                for frame_itr in range(self.fps * self.duration):
-                    frame_itr += 1
-                    try:
+                #         temp = layer[str(frame_itr)]
+                #         last_data = temp
 
-                        temp = layer[str(frame_itr)]
-                        last_data = temp
+                #     except:
 
-                    except:
-
-                        print("Not found")
-                        layer[str(frame_itr)] = last_data
+                #         print("Not found")
+                #         layer[str(frame_itr)] = last_data
 
             else:
                 frame_data = self.layer_variables[str(layer_itr)]
