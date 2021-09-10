@@ -42,7 +42,9 @@ class OpenCanvas:
                 pass
 
             final_array = layer["data"](
-                t, np.array(final_array, dtype=np.uint8), variable_table
+                t,
+                np.array(final_array, dtype=np.uint8),
+                variable_table[str(int(t * 15 + 1))],
             )
 
         final_array = cv2.cvtColor(final_array, cv2.COLOR_BGR2RGB)
@@ -113,18 +115,18 @@ class OpenCanvas:
                             + slope_value_y * (frame_itr - int(a_key["frame"]) - 1),
                         }
 
-                # last_data = NotImplemented
-                # for frame_itr in range(self.fps * self.duration):
-                #     frame_itr += 1
-                #     try:
+                last_data = NotImplemented
+                for frame_itr in range(self.fps * self.duration):
+                    frame_itr += 1
+                    try:
 
-                #         temp = layer[str(frame_itr)]
-                #         last_data = temp
+                        temp = layer[str(frame_itr)]
+                        last_data = temp
 
-                #     except:
+                    except:
 
-                #         print("Not found")
-                #         layer[str(frame_itr)] = last_data
+                        print("Not found")
+                        layer[str(frame_itr)] = last_data
 
             else:
                 frame_data = self.layer_variables[str(layer_itr)]
