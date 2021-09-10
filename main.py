@@ -1,43 +1,70 @@
-from Hetrix import OpenCanvas
-import cv2
-from cv2 import circle, putText, FONT_HERSHEY_SIMPLEX
+from .settings import *
 
-font = FONT_HERSHEY_SIMPLEX
+background_image = []
+background_color = [31, 36, 40]
+background_color.reverse()
+width = height = 500
 
-duration, fps = 5, 60
-canvas = OpenCanvas((500, 500), (0, 0, 255), duration, fps)
+for row in range(height):
 
-canvas.all_layers = [
-    {
-        "data": lambda t, f_r, f_v: putText(
-            f_r,
-            str(int(t * 15)),
-            (int(f_v["x"]), int(f_v["y"])),
-            font,
-            1,
-            (0, 0, 255),
-            2,
-            cv2.LINE_AA,
+    row_data = []
+
+    for pixel in range(width):
+        row_data.append(background_color)
+
+    background_image.append(row_data)
+
+
+all_layers = []
+layer_variables = {}
+
+for row in range(0, 5):
+    print(row)
+    for c in range(5):
+        all_layers.append(
+            {
+                "data": lambda t, f_r, f_v: cv2.circle(
+                    f_r,
+                    (
+                        ((f_v["c"] - int(f_v["c"] / (t + 1))) * 100) + 30 + 15,
+                        (100 * f_v["row"]) + 50,
+                    ),
+                    int(30),
+                    (0, 0, 255),
+                    thickness=-1,
+                )
+            }
         )
-    },
-    {
-        "data": lambda t, f_r, f_v: circle(
-            f_r,
-            (int(f_v["x"]), int(f_v["y"])),
-            30,
-            (0, 0, 255),
-            thickness=-1,
+
+        layer_variables[str(len(all_layers))] = {
+            "c": c,
+            "row": row,
+        }
+
+# all_layers.reverse()
+
+
+def composite(t):
+    final_array = background_image
+
+    for no, layer in enumerate(all_layers, start=1):
+        variable_table = {}
+        try:
+            if layer_variables[str(no)]:
+                variable_table = layer_variables[str(no)]
+        except:
+            pass
+
+        final_array = layer["data"](
+            t, np.array(final_array, dtype=np.uint8), variable_table
         )
-    },
-]
 
-canvas.all_layers.reverse()
+    final_array = cv2.cvtColor(final_array, cv2.COLOR_BGR2RGB)
 
-canvas.create_keyframe(2, 1, {"x": 10, "y": 30})
-canvas.create_keyframe(2, int((duration * fps) / 2), {"x": 50, "y": 50})
-canvas.create_keyframe(2, int(duration * fps), {"x": 400, "y": 490})
-canvas.create_keyframe(1, 1, {"x": 0, "y": 0})
-canvas.create_keyframe(1, int(duration * fps), {"x": 500, "y": 500})
+    return final_array
 
-canvas.render("test", "gif")
-print(int((duration * fps) / 2))
+
+clip = mpy.VideoClip(composite, duration=2)  # 2 seconds
+clip.write_gif("circle.gif", fps=15)
+
+clip.write_videofile("circle_amazing", fps=15)
