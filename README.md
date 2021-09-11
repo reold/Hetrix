@@ -14,7 +14,7 @@ Clone the repository and use the module
 
 For a brief introduction to Hetrix, please refer the tutorials in the documentation.
 
-#### Barebones(template)
+#### 🦴 Barebones(template)
 
 Create `main.py` in the root
 
@@ -49,7 +49,7 @@ canvas.create_keyframe(2, 75, {"x": 400, "y": 490})
 canvas.render("test", "gif")
 ```
 
-# API
+# 📚API
 
 The API is made similar to other apps available on the market. **It uses Layers which represent Objects**. These _Layers get composited into a single layer_. And gets rendered.
 
