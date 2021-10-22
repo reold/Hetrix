@@ -1,4 +1,4 @@
 import moviepy.editor as mpy
 import numpy as np
-from .keyframe import KeyframeHandler
+from .keyframer import KeyframeMapper
 import cv2
