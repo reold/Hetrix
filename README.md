@@ -42,9 +42,9 @@ canvas.all_layers = [
 
 canvas.all_layers.reverse()
 
-canvas.create_keyframe(2, 1, {"x": 10, "y": 30})
-canvas.create_keyframe(2, 45), {"x": 50, "y": 50})
-canvas.create_keyframe(2, 75, {"x": 400, "y": 490})
+canvas.create_keyframe(0, 1, {"x": 10, "y": 30})
+canvas.create_keyframe(0, 45, {"x": 50, "y": 50})
+canvas.create_keyframe(0, 75, {"x": 400, "y": 490})
 
 canvas.render("test", "gif")
 ```
