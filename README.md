@@ -23,7 +23,8 @@ from Hetrix import OpenCanvas
 from cv2 import putText
 
 duration, fps = 5, 15
-canvas = OpenCanvas((500, 500), (0, 0, 255), duration, fps)
+canvas_size, canvas_color = (500, 500), (0, 0, 255)
+canvas = OpenCanvas(canvas_size, canvas_color, duration, fps)
 
 canvas.all_layers = [
     {
@@ -40,7 +41,6 @@ canvas.all_layers = [
     },
 ]
 
-canvas.all_layers.reverse()
 
 canvas.create_keyframe(0, 1, {"x": 10, "y": 30})
 canvas.create_keyframe(0, 45, {"x": 50, "y": 50})
