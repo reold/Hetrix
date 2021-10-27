@@ -1,6 +1,5 @@
+from typing import final
 from .settings import *
-
-# from .main import *
 
 
 class OpenCanvas:
@@ -36,18 +35,23 @@ class OpenCanvas:
         self._create_bg_image()
 
     def _composite(self, t):
+        frame_itteration = int(t * self.fps)
         final_array = self.background_image
 
         for no, layer in enumerate(self.all_layers):
 
             if str(no) in self.taken_layers_for_variables:
-                variables = self.layer_variables[no].mapped_values[int(t * self.fps)]
+                variables = self.layer_variables[no].mapped_values[frame_itteration]
             else:
                 variables = {}
 
-            final_array = layer["data"](
-                t, np.array(final_array, dtype=np.uint8), variables
-            )
+            if layer["start"] <= int(t) and (layer["start"] + layer["duration"]) >= int(
+                t
+            ):
+
+                final_array = layer["data"](
+                    t, np.array(final_array, dtype=np.uint8), variables
+                )
 
         final_array = cv2.cvtColor(final_array, cv2.COLOR_BGR2RGB)
 
@@ -78,3 +82,5 @@ class OpenCanvas:
                 row_data.append(self.bg_color)
 
             self.background_image.append(row_data)
+
+        self.background_image = np.float32(self.background_image)
