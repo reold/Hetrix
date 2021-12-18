@@ -1,11 +1,11 @@
-![HetrixGithubBannerSized (1)](https://user-images.githubusercontent.com/65646799/132937683-ba02e72d-e829-4b46-a73b-ee7cd6333273.png)
+![Hetrix Logo Large](https://user-images.githubusercontent.com/65646799/145385431-bef31636-948e-494d-9d49-38e2446ee857.png)
 
 ---
 
 # 🎞Hetrix - Animation Engine
 
 It is an **open-source animation engine** made using **Python** based on **Moviepy**
-
+###### This is the python library version of Hetrix, to see the front-end source code, go to [HetrixWeb Github page](https://github.com/reold/hetrixWeb)
 ## 🔽 Installation
 
 Clone the repository and use the module
